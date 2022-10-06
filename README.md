@@ -1,16 +1,11 @@
 # certidoes_gov
 
-A new Flutter project.
+O Objetivo deste código é gerrar certidões de nada consta de CPF e CNPJ nos sites do Gov para
+facilitar a consulta de certidões negativas de empresas a serem contratadas pelo governo.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+A Certidão do CEIS do Portal da Transparência está funcionando.
 
-A few resources to get you started if this is your first Flutter project:
+A Certidão do TCU ainda não está trazendo resultados.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
