@@ -1,14 +1,10 @@
 
-import 'package:certidoes_gov/view/certidoes/certidoes_view.dart';
+import 'package:certidoes_gov/certidoes.dart';
 import 'package:flutter/material.dart';
 
-void main() async {
+void main() {
   runApp(MaterialApp(
-    home: Scaffold(
-      appBar: AppBar(
-        title: const Text("Ceis"),
-      ),
-      body: const CertidoesView(),
-    ),
-  ));
+      home: Scaffold(
+          appBar: AppBar(title: const Text("Certidões")),
+          body: const Certidoes())));
 }

@@ -36,7 +36,7 @@ class FormatterDate implements Formatter {
   }
 
   @override
-  bool isValid(TextEditingController textEditingController) {
+  bool isValid() {
     // TODO: implement getHint
     throw UnimplementedError();
   }

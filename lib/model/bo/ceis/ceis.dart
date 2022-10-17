@@ -7,6 +7,9 @@ import 'sancionado.dart';
 import 'tipo_sancao.dart';
 
 class Ceis {
+
+
+
   String? abrangenciaDefinidaDecisaoJudicial;
   String? dataFimSancao;
   String? dataInicioSancao;
@@ -28,8 +31,9 @@ class Ceis {
   Sancionado? sancionado;
   TipoSancao? tipoSancao;
 
-  Ceis(
-      {this.abrangenciaDefinidaDecisaoJudicial,
+  Ceis({
+
+      this.abrangenciaDefinidaDecisaoJudicial,
       this.dataFimSancao,
       this.dataInicioSancao,
       this.dataOrigemInformacao,

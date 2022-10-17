@@ -4,7 +4,7 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 abstract class Formatter {
   MaskTextInputFormatter getFormatter();
 
-  bool isValid(TextEditingController textEditingController);
+  bool isValid();
 
   String getHint();
 

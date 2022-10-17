@@ -3,15 +3,16 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import 'formatter.dart';
 
-class FormatterPhone implements Formatter {
+class FormatterCpf implements Formatter {
 
-  final MaskTextInputFormatter formatter = MaskTextInputFormatter(mask: "+## ## #####-####");
+  final MaskTextInputFormatter formatter = MaskTextInputFormatter(mask: "###.###.###-##");
 
-  final String hint = "+00 00 00000 0000";
+  final String hint = "000.000.000-00";
 
-  final TextInputType textInputType = TextInputType.phone;
+  final TextInputType textInputType = TextInputType.number;
 
-  FormFieldValidator<String>? validator = (value) {//todo
+  FormFieldValidator<String>? validator = (value) {
+    //todo
   };
 
   @override
@@ -20,7 +21,7 @@ class FormatterPhone implements Formatter {
   }
 
   @override
-  bool isValid(TextEditingController textEditingController) {
+  bool isValid() {
     // TODO: implement getHint
     throw UnimplementedError();
   }

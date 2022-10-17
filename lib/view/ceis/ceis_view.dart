@@ -1,13 +1,15 @@
-
 import 'package:flutter/material.dart';
 
 import '../../controller/ceis/ceis_controller.dart';
 import '../../model/bo/ceis/ceis.dart';
 
 class CeisView extends StatefulWidget {
-  const CeisView({Key? key, required this.controller}) : super(key: key);
+  const CeisView({
+    Key? key,
+    required this.listaDeCertidoes,
+  }) : super(key: key);
 
-  final CeisController controller;
+  final List<Ceis> listaDeCertidoes;
 
   @override
   State<CeisView> createState() => _CeisViewState();
@@ -19,11 +21,7 @@ class _CeisViewState extends State<CeisView> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        widget.controller.listaDeCertidoesCeis.isNotEmpty
-            ? _resultado()
-            : Container(width: 0),
-      ],
+      children: [_resultado()],
     );
   }
 
@@ -70,10 +68,10 @@ class _CeisViewState extends State<CeisView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text("Resultado da consulta:"),
-                    if (widget.controller.listaDeCertidoesCeis.isEmpty)
+                    if (widget.listaDeCertidoes.isEmpty)
                       _nadaCosta()
                     else
-                      for (var item in widget.controller.listaDeCertidoesCeis)
+                      for (var item in widget.listaDeCertidoes)
                         _restricao(item),
                   ],
                 )),
