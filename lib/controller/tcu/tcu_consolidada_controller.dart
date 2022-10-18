@@ -1,28 +1,36 @@
+import 'package:certidoes_gov/model/bo/tcu/tcu_certidoes.dart';
 import 'package:certidoes_gov/model/dao/tcu/tcu_certiddoes_dao.dart';
 import 'package:certidoes_gov/view/tcu/tcu_view.dart';
+import 'package:flutter/cupertino.dart';
 
-import '../../api/mascara/formatter.dart';
 import '../../model/bo/tcu/tcu.dart';
-import '../../model/bo/tcu/tcu_certidoes.dart';
 import '../../model/dao/tcu/tcu_dao.dart';
 
-class TcuConsolidadaController {
+class TcuConsolidadaController extends ChangeNotifier{
   final Tcu tcu = Tcu();
-  late final TcuView tcuView;
+  TcuView tcuView = TcuView();
 
   ///Consulta de Certidão TCU
   ///
   Future<void> consultar({required String cnpj}) async {
-    final tcuDAO = TcuDAO();
+    try {
+      final tcuDAO = TcuDAO();
 
-    List<dynamic> listaDinamica = await tcuDAO.consultar(cnpj: cnpj);
+      List<dynamic> listaDinamica = await tcuDAO.consultar(cnpj: cnpj);
 
-    List<Tcu> listaDeCertidoes = _fromListDynamic(listaDinamica);
+      List<Tcu> listaDeCertidoes = _fromListDynamic(listaDinamica);
 
-    tcuView = TcuView(listaDeCertidoes: listaDeCertidoes);
+      tcuView.listaDeCertidoes = listaDeCertidoes;
+      notifyListeners();
+
+    }catch(erro){
+      print('erro: ${erro.toString()}');
+    }
   }
 
   List<Tcu> _fromListDynamic(List<dynamic> listaDinamica) {
+
+
     List<Tcu> listaDeCertidoes = [];
 
     for (var item in listaDinamica) {

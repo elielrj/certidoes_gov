@@ -3,6 +3,7 @@ import 'package:certidoes_gov/controller/ceis/pessoa_controller.dart';
 import 'package:certidoes_gov/controller/ceis/sancionado_controller.dart';
 import 'package:certidoes_gov/controller/ceis/tipo_sancao_controller.dart';
 import 'package:certidoes_gov/view/ceis/ceis_view.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../../model/bo/ceis/ceis.dart';
 import '../../model/dao/ceis/ceis_dao.dart';
@@ -11,21 +12,27 @@ import 'orgao_sancionador_controller.dart';
 
 import 'dart:async';
 
-class CeisController {
+class CeisController extends ChangeNotifier{
   final Ceis ceis = Ceis();
 
-  late final CeisView ceisView;
+  CeisView ceisView = CeisView();
 
   ///Consulta de certidão CEIS
   ///
   Future<void> consulta({required String cnpj}) async {
+    try{
     final CeisDAO ceisDAO = CeisDAO();
 
     List<dynamic> listaDinamica = await ceisDAO.consultar(cnpj: cnpj);
 
     List<Ceis> listaDeCertidoes = _fromListDynamic(listaDinamica);
 
-    ceisView = CeisView(listaDeCertidoes: listaDeCertidoes);
+    ceisView.listaDeCertidoes = listaDeCertidoes;
+    notifyListeners();
+
+    }catch(erro){
+      print('erro: ${erro.toString()}');
+    }
   }
 
   List<Ceis> _fromListDynamic(List<dynamic> listaDinamica) {

@@ -4,7 +4,6 @@ import 'package:certidoes_gov/api/json/DecodificadorDeJson.dart';
 import 'package:certidoes_gov/api/tcu/api_tcu.dart';
 import 'package:http/http.dart' as http;
 
-
 ///https://portal.tcu.gov.br/webservices-tcu/
 /// GET https://certidoes-apf.apps.tcu.gov.br/api/rest/publico/tipos-certidoes
 ///     https://certidoes-apf.apps.tcu.gov.br/api/rest/publico/certidoes/00638562000165?seEmitirPDF=true
@@ -15,16 +14,16 @@ class TcuDAO {
   static final URL =
       //"https://certidoes-apf.apps.tcu.gov.br/api/rest/publico/tipos-certidoes";
       //"certidoes-apf.apps.tcu.gov.br/api/rest/publico/tipos-certidoes";
-      'https://certidoes-apf.apps.tcu.gov.br/api/rest/publico/certidoes';
+      'certidoes-apf.apps.tcu.gov.br/api/rest/publico/certidoes';
 
-  String? cnpj;
+  String? _cnpj;
   bool seEmitirPDF = false;
   DateTime? data;
 
   Future<List<dynamic>> consultar({required String cnpj}) async {
     ///Atribuir CNPJ
     ///
-    cnpj = cnpj;
+    _cnpj = cnpj;
 
     ///API para acessar portal do TCU
     ///
@@ -56,13 +55,26 @@ class TcuDAO {
   }
 
   String _criarQuery() {
-    return "$URL/$cnpj?seEmitirPDF=$seEmitirPDF";
+    //return "$URL/$_cnpj?seEmitirPDF=$seEmitirPDF";
+    return "$URL/$_cnpj";
   }
 
   Map<String, String> _criarHerder() {
     return {
-      "content-type": 'application/json;charset=UTF-8',
-      "accept": "application/json",
+      "Accept":
+          "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+      "Accept-Encoding": "gzip, deflate, br",
+      "Accept-Language": "pt-BR",
+      "Connection": "keep-alive",
+      "Host": "certidoes-apf.apps.tcu.gov.br",
+      "Proxy-Authorization": "Basic c2d0ZWxpZWwtM2NpYTYzYmk6OTUyNDk1MjQ=",
+      "Sec-Fetch-Dest": "document",
+      "Sec-Fetch-Mode": "navigate",
+      "Sec-Fetch-Site": "none",
+      "Sec-Fetch-User": "?1",
+      "Upgrade-Insecure-Requests": "1",
+      "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:105.0) Gecko/20100101 Firefox/105.0",
     };
   }
 

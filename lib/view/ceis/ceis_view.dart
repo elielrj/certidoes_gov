@@ -1,21 +1,23 @@
+import 'package:certidoes_gov/model/bo/ceis/ceis.dart';
 import 'package:flutter/material.dart';
 
-import '../../controller/ceis/ceis_controller.dart';
-import '../../model/bo/ceis/ceis.dart';
-
 class CeisView extends StatefulWidget {
-  const CeisView({
-    Key? key,
-    required this.listaDeCertidoes,
-  }) : super(key: key);
+  CeisView({Key? key, List<Ceis>? listaDeCertidoes}) : super(key: key);
 
-  final List<Ceis> listaDeCertidoes;
+  List<Ceis> listaDeCertidoes = [];
 
   @override
   State<CeisView> createState() => _CeisViewState();
 }
 
 class _CeisViewState extends State<CeisView> {
+
+  @override
+  void initState() {
+    super.initState();
+    widget.listaDeCertidoes;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -51,7 +53,8 @@ class _CeisViewState extends State<CeisView> {
     }
   }
 */
-  Widget _resultado() => Container(
+  Widget _resultado() =>
+      Container(
         color: Colors.amber,
         alignment: Alignment.centerLeft,
         child: Column(
@@ -152,12 +155,14 @@ class _CeisViewState extends State<CeisView> {
 
  */
 
-  Widget _nadaCosta() => const Text(
+  Widget _nadaCosta() =>
+      const Text(
         " Nada Consta",
         style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
       );
 
-  Widget _restricao(Ceis ceis) => Column(
+  Widget _restricao(Ceis ceis) =>
+      Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -188,4 +193,5 @@ class _CeisViewState extends State<CeisView> {
           )
         ],
       );
+
 }

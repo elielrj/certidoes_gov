@@ -13,10 +13,7 @@ class ApiTcu {
   ApiTcu({required this.query,required  this.herders});
 
   Future<http.Response> consultar() async {
-    return await http.get(
-        Uri.parse(query),
-        headers: herders,
-    );
+    return await http.get(Uri.parse(query),headers: herders );
   }
 
 }

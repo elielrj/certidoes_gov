@@ -2,15 +2,22 @@ import 'package:certidoes_gov/model/bo/tcu/tcu.dart';
 import 'package:flutter/material.dart';
 
 class TcuView extends StatefulWidget {
-  const TcuView({Key? key, required this.listaDeCertidoes}) : super(key: key);
+   TcuView({Key? key, List<Tcu>? listaDeCertidoes}) : super(key: key);
 
-  final List<Tcu> listaDeCertidoes;
+  List<Tcu> listaDeCertidoes = [];
 
   @override
   State<TcuView> createState() => _TcuViewState();
 }
 
 class _TcuViewState extends State<TcuView> {
+
+  @override
+  void initState() {
+    widget.listaDeCertidoes;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(

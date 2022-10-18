@@ -1,6 +1,7 @@
 import 'package:certidoes_gov/api/mascara/formatter_cnpj.dart';
 import 'package:certidoes_gov/api/mascara/mask.dart';
 import 'package:certidoes_gov/controller/ceis/ceis_controller.dart';
+import 'package:certidoes_gov/controller/tcu/tcu_consolidada_controller.dart';
 import 'package:flutter/material.dart';
 
 class Certidoes extends StatefulWidget {
@@ -12,6 +13,8 @@ class Certidoes extends StatefulWidget {
 
 class _CertidoesState extends State<Certidoes> {
   final Mask cnpj = Mask(formatter: FormatterCnpj());
+
+  final ceisController = CeisController();
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +79,7 @@ class _CertidoesState extends State<Certidoes> {
 
             ///TCU
             ///
-            _campoTcu(),
+            await _campoTcu(),
             const SizedBox(height: 50),
 
             ///PDF
@@ -149,12 +152,12 @@ class _CertidoesState extends State<Certidoes> {
   }
 
   Future<Widget> _campoCeis() async {
-    final controller = CeisController();
 
-    await controller.consulta(
+
+    await ceisController.consulta(
         cnpj: cnpj.formatter.getFormatter().getUnmaskedText());
 
-    return controller.ceisView;
+    return ceisController.ceisView;
   }
 
   Widget _campoCnj() {
@@ -165,7 +168,11 @@ class _CertidoesState extends State<Certidoes> {
     return Container();
   }
 
-  Widget _campoTcu() {
-    return Container();
+  Future<Widget> _campoTcu() async {
+    final controller = TcuConsolidadaController();
+
+    await controller.consultar(cnpj: cnpj.formatter.getFormatter().getUnmaskedText());
+
+    return controller.tcuView;
   }
 }
