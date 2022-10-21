@@ -7,8 +7,9 @@ import '../../model/bo/tcu/tcu.dart';
 import '../../model/dao/tcu/tcu_dao.dart';
 
 class TcuConsolidadaController extends ChangeNotifier{
-  final Tcu tcu = Tcu();
-  TcuView tcuView = TcuView();
+//  final Tcu tcu = Tcu();
+
+  late TcuView tcuView ;
 
   ///Consulta de Certidão TCU
   ///
@@ -20,7 +21,7 @@ class TcuConsolidadaController extends ChangeNotifier{
 
       List<Tcu> listaDeCertidoes = _fromListDynamic(listaDinamica);
 
-      tcuView.listaDeCertidoes = listaDeCertidoes;
+      tcuView = TcuView(listaDeCertidoes: listaDeCertidoes);
       notifyListeners();
 
     }catch(erro){
