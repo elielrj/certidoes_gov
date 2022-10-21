@@ -42,6 +42,8 @@ dependencies:
   syncfusion_flutter_pdf: ^20.2.50
   mysql1: ^0.20.0
   cpf_cnpj_validator: ^2.0.0
+  xml2json: ^5.3.5
+
 
 dev_dependencies:
   flutter_test:

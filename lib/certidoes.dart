@@ -2,6 +2,7 @@ import 'package:certidoes_gov/api/mascara/formatter_cnpj.dart';
 import 'package:certidoes_gov/api/mascara/mask.dart';
 import 'package:certidoes_gov/controller/ceis/ceis_controller.dart';
 import 'package:certidoes_gov/controller/tcu/tcu_consolidada_controller.dart';
+import 'package:certidoes_gov/view/ceis/ceis_view.dart';
 import 'package:flutter/material.dart';
 
 class Certidoes extends StatefulWidget {
@@ -14,7 +15,9 @@ class Certidoes extends StatefulWidget {
 class _CertidoesState extends State<Certidoes> {
   final Mask cnpj = Mask(formatter: FormatterCnpj());
 
-  final ceisController = CeisController();
+  final controllerCeis = CeisController();
+  final controllerTcu = TcuConsolidadaController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +42,13 @@ class _CertidoesState extends State<Certidoes> {
               ///
               TextButton(
                   onPressed: () => cnpj.formatter.isValid()
-                      ? _columnResulted()
+                      ? Container(width: 0)
                       : _mensagemDeeEerroDeValorInvalido(),
                   child: const Text("Consultar")),
+
+              ///Exibe compo
+              ///
+              _columnResulted(),
             ],
           ),
         ),
@@ -51,43 +58,72 @@ class _CertidoesState extends State<Certidoes> {
 
   ///Resultado para CNPJ válido
   ///
-  Future<Widget> _columnResulted() async => Container(
-        alignment: Alignment.centerLeft,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ///CADIN
-            ///
-            _campoCadin(),
-            const SizedBox(height: 50),
+  Widget _columnResulted()  {
+    return Container(
+      alignment: Alignment.centerLeft,
+      color: Colors.green,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
 
-            ///CEIS
-            ///
-            await _campoCeis(),
-            const SizedBox(height: 50),
+          ///CADIN
+          ///
+          _campoCadin(),
+          const SizedBox(height: 50),
 
-            ///CNJ
-            ///
-            _campoCnj(),
-            const SizedBox(height: 50),
+          ///CEIS
+          ///
+          FutureBuilder(
+            future: _campoCeis(),
+              builder: (context,snapshot){
+              if(snapshot.hasData){
+                return Center(
+                  child: snapshot.data,
+                );
+              }else{
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              }),
+          const SizedBox(height: 50),
 
-            ///SICAF
-            ///
-            _campoSicaf(),
-            const SizedBox(height: 50),
+          ///CNJ
+          ///
+          _campoCnj(),
+          const SizedBox(height: 50),
 
-            ///TCU
-            ///
-            await _campoTcu(),
-            const SizedBox(height: 50),
+          ///SICAF
+          ///
+          _campoSicaf(),
+          const SizedBox(height: 50),
 
-            ///PDF
-            ///
-            _imprimirPdf(),
-          ],
-        ),
-      );
+          ///TCU
+          ///
+          FutureBuilder(
+              future: _campoTcu(),
+              builder: (context,snapshot){
+                if(snapshot.hasData){
+                  return Center(
+                    child: snapshot.data,
+                  );
+                }else{
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              }
+          ),
+          const SizedBox(height: 50),
+
+          ///PDF
+          ///
+          _imprimirPdf(),
+        ],
+      ),
+    );
+  }
 
   ///Mensagem de erro para CPF ou CNPJ inválido
   ///
@@ -151,15 +187,6 @@ class _CertidoesState extends State<Certidoes> {
     return Container();
   }
 
-  Future<Widget> _campoCeis() async {
-
-
-    await ceisController.consulta(
-        cnpj: cnpj.formatter.getFormatter().getUnmaskedText());
-
-    return ceisController.ceisView;
-  }
-
   Widget _campoCnj() {
     return Container();
   }
@@ -168,11 +195,28 @@ class _CertidoesState extends State<Certidoes> {
     return Container();
   }
 
+  Future<Widget> _campoCeis() async {
+
+    await controllerCeis.consulta(
+        cnpj: cnpj.formatter.getFormatter().getUnmaskedText());
+
+    setState(() {
+      controllerCeis.ceisView.listaDeCertidoes;
+    });
+
+    return controllerCeis.ceisView;
+  }
+
   Future<Widget> _campoTcu() async {
-    final controller = TcuConsolidadaController();
 
-    await controller.consultar(cnpj: cnpj.formatter.getFormatter().getUnmaskedText());
 
-    return controller.tcuView;
+    await controllerTcu.consultar(
+        cnpj: cnpj.formatter.getFormatter().getUnmaskedText());
+
+    setState(() {
+      controllerTcu.tcuView.listaDeCertidoes;
+    });
+
+    return controllerTcu.tcuView;
   }
 }

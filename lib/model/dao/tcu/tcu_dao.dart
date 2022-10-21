@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:certidoes_gov/api/json/DecodificadorDeJson.dart';
 import 'package:certidoes_gov/api/tcu/api_tcu.dart';
 import 'package:http/http.dart' as http;
+import 'package:xml2json/xml2json.dart';
 
 ///https://portal.tcu.gov.br/webservices-tcu/
 /// GET https://certidoes-apf.apps.tcu.gov.br/api/rest/publico/tipos-certidoes
@@ -14,7 +15,7 @@ class TcuDAO {
   static final URL =
       //"https://certidoes-apf.apps.tcu.gov.br/api/rest/publico/tipos-certidoes";
       //"certidoes-apf.apps.tcu.gov.br/api/rest/publico/tipos-certidoes";
-      'certidoes-apf.apps.tcu.gov.br/api/rest/publico/certidoes';
+      'https://certidoes-apf.apps.tcu.gov.br/api/rest/publico/certidoes';
 
   String? _cnpj;
   bool seEmitirPDF = false;
@@ -48,41 +49,27 @@ class TcuDAO {
 
     */
 
+    print('objeto: ${data.body}');
+
     ///Decodifica em um List<dynamic>
     ///antes de retornar o resultado
     ///
-    return _decodificar(data);
+    return await _decodificar(data);
   }
 
   String _criarQuery() {
-    //return "$URL/$_cnpj?seEmitirPDF=$seEmitirPDF";
-    return "$URL/$_cnpj";
+    return "$URL/$_cnpj?seEmitirPDF=$seEmitirPDF";
   }
 
   Map<String, String> _criarHerder() {
-    return {
-      "Accept":
-          "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-      "Accept-Encoding": "gzip, deflate, br",
-      "Accept-Language": "pt-BR",
-      "Connection": "keep-alive",
-      "Host": "certidoes-apf.apps.tcu.gov.br",
-      "Proxy-Authorization": "Basic c2d0ZWxpZWwtM2NpYTYzYmk6OTUyNDk1MjQ=",
-      "Sec-Fetch-Dest": "document",
-      "Sec-Fetch-Mode": "navigate",
-      "Sec-Fetch-Site": "none",
-      "Sec-Fetch-User": "?1",
-      "Upgrade-Insecure-Requests": "1",
-      "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:105.0) Gecko/20100101 Firefox/105.0",
-    };
+    return {'orgaoEmissor': 'TCU'};
   }
 
   ///Recebe um http.Response e decodifica em um List<dynamic>
   ///
-  List<dynamic> _decodificar(http.Response response) {
+  Future<List> _decodificar(http.Response response) async {
     final decodificadorDeJson = DecodificadorDeJson();
 
-    return decodificadorDeJson.decode(response);
+    return await decodificadorDeJson.decodeXML(response);
   }
 }

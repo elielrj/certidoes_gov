@@ -1,8 +1,9 @@
+import 'package:certidoes_gov/controller/ceis/ceis_controller.dart';
 import 'package:certidoes_gov/model/bo/ceis/ceis.dart';
 import 'package:flutter/material.dart';
 
 class CeisView extends StatefulWidget {
-  CeisView({Key? key, List<Ceis>? listaDeCertidoes}) : super(key: key);
+  CeisView({Key? key, required this.listaDeCertidoes}) : super(key: key);
 
   List<Ceis> listaDeCertidoes = [];
 
@@ -12,18 +13,18 @@ class CeisView extends StatefulWidget {
 
 class _CeisViewState extends State<CeisView> {
 
-  @override
-  void initState() {
-    super.initState();
-    widget.listaDeCertidoes;
-  }
+
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: [_resultado()],
+      children: [
+        widget.listaDeCertidoes.isNotEmpty
+            ? _resultado()
+            : Container(width: 0)
+      ],
     );
   }
 
@@ -53,8 +54,7 @@ class _CeisViewState extends State<CeisView> {
     }
   }
 */
-  Widget _resultado() =>
-      Container(
+  Widget _resultado() => Container(
         color: Colors.amber,
         alignment: Alignment.centerLeft,
         child: Column(
@@ -155,14 +155,12 @@ class _CeisViewState extends State<CeisView> {
 
  */
 
-  Widget _nadaCosta() =>
-      const Text(
+  Widget _nadaCosta() => const Text(
         " Nada Consta",
         style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
       );
 
-  Widget _restricao(Ceis ceis) =>
-      Column(
+  Widget _restricao(Ceis ceis) => Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -193,5 +191,4 @@ class _CeisViewState extends State<CeisView> {
           )
         ],
       );
-
 }

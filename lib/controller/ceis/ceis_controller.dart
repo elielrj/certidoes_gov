@@ -12,25 +12,29 @@ import 'orgao_sancionador_controller.dart';
 
 import 'dart:async';
 
-class CeisController extends ChangeNotifier{
-  final Ceis ceis = Ceis();
+class CeisController  extends ChangeNotifier{
+  //final Ceis ceis = Ceis();
 
-  CeisView ceisView = CeisView();
+  bool isResultedCeis = false;
+
+  late CeisView ceisView;
 
   ///Consulta de certidão CEIS
   ///
   Future<void> consulta({required String cnpj}) async {
-    try{
-    final CeisDAO ceisDAO = CeisDAO();
+    try {
+      isResultedCeis = false;
 
-    List<dynamic> listaDinamica = await ceisDAO.consultar(cnpj: cnpj);
+      final CeisDAO ceisDAO = CeisDAO();
 
-    List<Ceis> listaDeCertidoes = _fromListDynamic(listaDinamica);
+      List<dynamic> listaDinamica = await ceisDAO.consultar(cnpj: cnpj);
 
-    ceisView.listaDeCertidoes = listaDeCertidoes;
-    notifyListeners();
+      List<Ceis> listaDeCertidoes = _fromListDynamic(listaDinamica);
 
-    }catch(erro){
+      ceisView = CeisView(listaDeCertidoes: listaDeCertidoes);
+      notifyListeners();
+
+    } catch (erro) {
       print('erro: ${erro.toString()}');
     }
   }

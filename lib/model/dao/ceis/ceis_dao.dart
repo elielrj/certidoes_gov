@@ -85,6 +85,6 @@ class CeisDAO {
   List<dynamic> _decodificar(http.Response response) {
     final decodificadorDeJson = DecodificadorDeJson();
 
-    return  decodificadorDeJson.decode(response);
+    return  decodificadorDeJson.decodeJSON(response);
   }
 }
